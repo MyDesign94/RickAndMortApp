@@ -1,8 +1,6 @@
 package com.example.rickandmortapp.feature.presentation.list_screen
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,13 +21,6 @@ class ListScreenViewModel @Inject constructor(
 
     private val _viewState: MutableLiveData<ListData> = MutableLiveData(ListData())
     val viewState: LiveData<ListData> = _viewState
-
-    private val _data = mutableStateOf(ListData())
-    val data: State<ListData> = _data
-
-    init {
-        getData()
-    }
 
     override fun obtainEvent(event: ListScreenEvent) {
         when(event) {
@@ -63,33 +54,4 @@ class ListScreenViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
-
-    private fun getData() {
-        Log.e("getData", "started")
-        useCase().onEach { result ->
-            when(result) {
-                is Resource.Success -> {
-                    _data.value = data.value.copy(
-                        data = result.data!!,
-                        isLoading = false
-                    )
-                    Log.e("data_result", result.data.toString())
-                }
-                is Resource.Loading -> {
-                    _data.value = data.value.copy(
-                        isLoading = true
-                    )
-                    Log.e("data_loading", "true")
-                }
-                is Resource.Error -> {
-                    _data.value = data.value.copy(
-                        error = result.message?: "An unexpected error occured"
-                    )
-                    Log.e("data_error", result.message.toString())
-                }
-            }
-        }.launchIn(viewModelScope)
-    }
-
-
 }
