@@ -1,7 +1,5 @@
 package com.example.rickandmortapp.feature.domain.use_case
 
-import android.util.Log
-import com.example.rickandmortapp.feature.data.remote.dto.Character
 import com.example.rickandmortapp.feature.data.remote.dto.Result
 import com.example.rickandmortapp.feature.domain.repository.RickAndMortyRepository
 import com.example.rickandmortapp.feature.domain.util.Resource
@@ -21,7 +19,7 @@ class GetAllCharacterUseCase @Inject constructor(
             val pages = repository.getAllCharacters(1).info.pages
             val resultData: MutableList<Result> = mutableListOf()
             for (i in 1..pages){
-                val data = repository.getAllCharacters(i).results.forEach { resultData += it }
+                repository.getAllCharacters(i).results.forEach { resultData += it }
             }
             emit(Resource.Success<List<Result>>(data = resultData))
         } catch (e: HttpException) {

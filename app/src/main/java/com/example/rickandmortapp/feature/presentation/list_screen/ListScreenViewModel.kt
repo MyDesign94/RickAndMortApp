@@ -67,7 +67,6 @@ class ListScreenViewModel @Inject constructor(
     private fun getData() {
         Log.e("getData", "started")
         useCase().onEach { result ->
-            Log.e("getData", "started")
             when(result) {
                 is Resource.Success -> {
                     _data.value = data.value.copy(

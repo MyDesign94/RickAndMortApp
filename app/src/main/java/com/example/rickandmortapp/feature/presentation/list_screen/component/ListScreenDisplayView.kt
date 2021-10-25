@@ -1,5 +1,6 @@
 package com.example.rickandmortapp.feature.presentation.list_screen.component
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,6 +21,8 @@ import com.example.rickandmortapp.R
 import com.example.rickandmortapp.feature.data.remote.dto.Result
 import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @ExperimentalCoilApi
 @Composable
 fun ListScreenDisplayView(
@@ -40,7 +44,7 @@ fun ListScreenDisplayView(
                 item {
                     Image(
                         painterResource(id = R.drawable.rick_and_morty_baner),
-                        contentDescription = "baner",
+                        contentDescription = "banner",
                         modifier = Modifier.background(Color.Transparent)
                     )
                 }
