@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.example.rickandmortapp.R
 import com.example.rickandmortapp.feature.data.remote.dto.Result
+import com.example.rickandmortapp.feature.domain.model.NewResult
 import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 
 @ExperimentalFoundationApi
@@ -27,7 +28,7 @@ import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 @ExperimentalCoilApi
 @Composable
 fun ListScreenDisplayView(
-    data: List<Result>,
+    data: List<NewResult>,
     onItemClick: (Result) -> Unit
 ) {
     Surface(

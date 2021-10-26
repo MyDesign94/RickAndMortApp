@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.Dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.rickandmortapp.feature.data.remote.dto.Result
+import com.example.rickandmortapp.feature.domain.model.NewResult
 import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 import com.example.rickandmortapp.feature.presentation.ui.theme.RobotoCondensed
 
@@ -30,7 +31,7 @@ import com.example.rickandmortapp.feature.presentation.ui.theme.RobotoCondensed
 @ExperimentalCoilApi
 @Composable
 fun PersonalCard(
-    item: Result,
+    item: NewResult,
     modifier: Modifier = Modifier,
     shape: RoundedCornerShape = RoundedCornerShape(10.dp),
     cardBackgroundColor: Color = RAMTheme.colors.secondaryBackground,
@@ -91,16 +92,12 @@ fun PersonalCard(
                             textColor = if (item.status == "Alive") Color.Green else Color.Red
                         )
                         TextEx(prefix = "Gender: ", item = item.gender, modifier = modifier)
-                        TextEx(prefix = "Location: ", item = item.location.name, modifier = modifier)
+                        TextEx(prefix = "Location: ", item = item.location, modifier = modifier)
                         TextEx(prefix = "Type: ", item = item.type, modifier = modifier)
                         TextEx(prefix = "In which episodes:", style = RAMTheme.typography.heading,
                             textAlign = TextAlign.Center, modifier = modifier
                         )
-                        var text = ""
-                        item.episode.forEach { episode ->
-                            text += "${episode.takeLastWhile { it.isDigit() }} "
-                        }
-                        TextEx(prefix = text, modifier = modifier)
+                        TextEx(prefix = item.episode, modifier = modifier)
                     }
                 }
             }
