@@ -1,6 +1,5 @@
 package com.example.rickandmortapp.feature.domain.use_case
 
-import com.example.rickandmortapp.feature.data.remote.dto.Result
 import com.example.rickandmortapp.feature.data.remote.dto.toNewResult
 import com.example.rickandmortapp.feature.domain.model.NewResult
 import com.example.rickandmortapp.feature.domain.repository.RickAndMortyRepository

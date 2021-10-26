@@ -19,11 +19,8 @@ data class Result(
 
 fun Result.toNewResult(): NewResult {
     var allEpisode = ""
-    episode.forEach { episode ->
-        allEpisode += "${episode.takeLastWhile { it.isDigit() }} "
-    }
+    episode.forEach { episode -> allEpisode += "${episode.takeLastWhile { it.isDigit() }} " }
     return NewResult(
-        created =created,
         episode =allEpisode,
         gender =gender,
         id =id,
@@ -31,10 +28,8 @@ fun Result.toNewResult(): NewResult {
         location =location.name,
         name =name,
         origin =origin.name,
-        species =species,
         status =status,
         type =type,
-        url = url,
         click = false
     )
 }

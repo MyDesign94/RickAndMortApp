@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RickAndMortApp</string>
+    <string name="name">Name: </string>
+    <string name="status">Status: </string>
+    <string name="gender">Gender: </string>
+    <string name="location">Location: </string>
+    <string name="type">Type: </string>
+    <string name="episodes">In which episodes:</string>
+    <string name="daily_error_loading">Error while loading data. Try to refresh.</string>
+    <string name="refresh">Refresh</string>
 </resources>

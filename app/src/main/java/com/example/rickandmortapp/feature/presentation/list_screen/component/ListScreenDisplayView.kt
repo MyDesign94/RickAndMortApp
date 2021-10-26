@@ -2,7 +2,6 @@ package com.example.rickandmortapp.feature.presentation.list_screen.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,10 +15,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.example.rickandmortapp.R
-import com.example.rickandmortapp.feature.data.remote.dto.Result
 import com.example.rickandmortapp.feature.domain.model.NewResult
 import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 
@@ -28,37 +27,43 @@ import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 @ExperimentalCoilApi
 @Composable
 fun ListScreenDisplayView(
+    modifier: Modifier = Modifier,
+    background: Color = RAMTheme.colors.primaryBackground,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    standardPadding: Dp = 10.dp,
+    imageTop: Int = R.drawable.rick_and_morty_baner,
+    imageBottom: Int = R.drawable.start_logo2,
     data: List<NewResult>,
-    onItemClick: (Result) -> Unit
+    onItemClick: (NewResult) -> Unit
 ) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = RAMTheme.colors.primaryBackground
+        modifier = modifier.fillMaxSize(),
+        color = background
     ) {
         Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = modifier.fillMaxSize(),
+            horizontalAlignment = horizontalAlignment
         ) {
             LazyColumn(
-                contentPadding = PaddingValues(10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                contentPadding = PaddingValues(standardPadding),
+                horizontalAlignment = horizontalAlignment
             ) {
                 item {
                     Image(
-                        painterResource(id = R.drawable.rick_and_morty_baner),
-                        contentDescription = "banner",
-                        modifier = Modifier.background(Color.Transparent)
+                        painterResource(id = imageTop),
+                        contentDescription = "banner"
                     )
                 }
                 items(data) { item ->
                     PersonalCard(
-                        modifier = Modifier.fillMaxWidth(),
-                        item = item
+                        modifier = modifier.fillMaxWidth(),
+                        item = item,
+                        onItemClick = onItemClick
                     )
                 }
                 item {
                     Image(
-                        painterResource(id = R.drawable.start_logo2),
+                        painterResource(id = imageBottom),
                         contentDescription = "end"
                     )
                 }

@@ -13,15 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.*
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
-import com.example.rickandmortapp.feature.data.remote.dto.Result
+import com.example.rickandmortapp.R
 import com.example.rickandmortapp.feature.domain.model.NewResult
 import com.example.rickandmortapp.feature.presentation.ui.theme.RAMTheme
 import com.example.rickandmortapp.feature.presentation.ui.theme.RobotoCondensed
@@ -39,13 +40,13 @@ fun PersonalCard(
     littlePadding: Dp = 4.dp,
     imageSize: Dp = 180.dp,
     elevation: Dp = 3.dp,
+    onItemClick: (NewResult) -> Unit,
 ){
-    var expandedState by remember { mutableStateOf(false) }
-
     Card(
         shape = shape,
         backgroundColor = cardBackgroundColor,
         modifier = modifier
+            .testTag(item.id.toString())
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 300,
@@ -55,7 +56,7 @@ fun PersonalCard(
             .padding(normalPadding),
         elevation = elevation,
         onClick = {
-            expandedState = !expandedState
+            onItemClick(item)
         }
     ) {
         Box(
@@ -78,26 +79,26 @@ fun PersonalCard(
                         contentDescription = item.name,
                         modifier = Modifier.size(imageSize).clip(shape)
                     )
-                    TextEx(item = item.name, modifier = modifier,
+                    TextEx(text = item.name, modifier = modifier,
                         style = RAMTheme.typography.heading,
                         textAlign = TextAlign.Center
                     )
                 }
-                if (expandedState) {
+                if (item.click) {
                     Column(
                         modifier = modifier.padding(normalPadding)
                     ) {
-                        TextEx(prefix = "Name: ", item = item.name, modifier = modifier)
-                        TextEx(prefix = "Status: ", item = item.status, modifier = modifier,
+                        TextEx(text = "${stringResource(R.string.name)}${item.name}", modifier = modifier)
+                        TextEx(text = "${stringResource(R.string.status)}${item.status}", modifier = modifier,
                             textColor = if (item.status == "Alive") Color.Green else Color.Red
                         )
-                        TextEx(prefix = "Gender: ", item = item.gender, modifier = modifier)
-                        TextEx(prefix = "Location: ", item = item.location, modifier = modifier)
-                        TextEx(prefix = "Type: ", item = item.type, modifier = modifier)
-                        TextEx(prefix = "In which episodes:", style = RAMTheme.typography.heading,
+                        TextEx(text = "${stringResource(R.string.gender)}${item.gender}", modifier = modifier)
+                        TextEx(text = "${stringResource(R.string.location)}${item.location}", modifier = modifier)
+                        TextEx(text = "${stringResource(R.string.type)}${item.type}", modifier = modifier)
+                        TextEx(text = stringResource(R.string.episodes), style = RAMTheme.typography.heading,
                             textAlign = TextAlign.Center, modifier = modifier
                         )
-                        TextEx(prefix = item.episode, modifier = modifier)
+                        TextEx(text = item.episode, modifier = modifier)
                     }
                 }
             }
@@ -109,15 +110,14 @@ fun PersonalCard(
 @Composable
 fun TextEx(
     modifier: Modifier = Modifier,
-    prefix: String = "",
-    item: String = "",
+    text: String = "",
     style: TextStyle = RAMTheme.typography.body,
     textAlign: TextAlign = TextAlign.Start,
     textColor: Color = RAMTheme.colors.primaryText,
     fontFamily: FontFamily = RobotoCondensed
 ){
     Text(
-        text = "$prefix$item",
+        text = text,
         color = textColor,
         style = style,
         fontFamily = fontFamily,
