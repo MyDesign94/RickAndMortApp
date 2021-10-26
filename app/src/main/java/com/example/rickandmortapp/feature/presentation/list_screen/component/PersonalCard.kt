@@ -16,6 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.*
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.Dp
 import coil.annotation.ExperimentalCoilApi
 import coil.compose.rememberImagePainter
 import com.example.rickandmortapp.feature.data.remote.dto.Result
@@ -27,43 +30,42 @@ import com.example.rickandmortapp.feature.presentation.ui.theme.RobotoCondensed
 @ExperimentalCoilApi
 @Composable
 fun PersonalCard(
-    item: Result
+    item: Result,
+    modifier: Modifier = Modifier,
+    shape: RoundedCornerShape = RoundedCornerShape(10.dp),
+    cardBackgroundColor: Color = RAMTheme.colors.secondaryBackground,
+    normalPadding: Dp = 10.dp,
+    littlePadding: Dp = 4.dp,
+    imageSize: Dp = 180.dp,
+    elevation: Dp = 3.dp,
 ){
     var expandedState by remember { mutableStateOf(false) }
 
-
     Card(
-        shape = RoundedCornerShape(10.dp),
-        backgroundColor = RAMTheme.colors.secondaryBackground,
-        modifier = Modifier
-            .fillMaxWidth()
+        shape = shape,
+        backgroundColor = cardBackgroundColor,
+        modifier = modifier
             .animateContentSize(
                 animationSpec = tween(
                     durationMillis = 300,
                     easing = LinearOutSlowInEasing
                 )
             )
-            .padding(10.dp),
-        elevation = 3.dp,
+            .padding(normalPadding),
+        elevation = elevation,
         onClick = {
             expandedState = !expandedState
         }
-
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(4.dp)
+            modifier = modifier.padding(littlePadding)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp)
+                modifier = modifier.padding(normalPadding)
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
+                    modifier = modifier,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         painter = rememberImagePainter(
@@ -73,110 +75,56 @@ fun PersonalCard(
                             }
                         ),
                         contentDescription = item.name,
-                        modifier = Modifier
-                            .size(180.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                        modifier = Modifier.size(imageSize).clip(shape)
                     )
-                    if (!expandedState) {
-                        Column(
-                            modifier = Modifier
-                                .padding(start = 4.dp)
-                                .fillMaxSize(),
-                            horizontalAlignment = Alignment.Start,
-                            verticalArrangement = Arrangement.Top
-                        ) {
-                            Text(
-                                text = "Name: ${item.name}",
-                                color = RAMTheme.colors.primaryText,
-                                style = RAMTheme.typography.body,
-                                fontFamily = RobotoCondensed,
-                                textAlign = TextAlign.Start,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            Text(
-                                text = "status: ${item.status}",
-                                color = if(item.status == "Alive") Color.Green else Color.Red,
-                                style = RAMTheme.typography.body,
-                                fontFamily = RobotoCondensed,
-                                textAlign = TextAlign.Start,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                        }
-                    }
-
+                    TextEx(item = item.name, modifier = modifier,
+                        style = RAMTheme.typography.heading,
+                        textAlign = TextAlign.Center
+                    )
                 }
                 if (expandedState) {
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        horizontalAlignment = Alignment.Start
+                        modifier = modifier.padding(normalPadding)
                     ) {
-                        Text(
-                            text = "Name: ${item.name}",
-                            color = RAMTheme.colors.primaryText,
-                            style = RAMTheme.typography.body,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
+                        TextEx(prefix = "Name: ", item = item.name, modifier = modifier)
+                        TextEx(prefix = "Status: ", item = item.status, modifier = modifier,
+                            textColor = if (item.status == "Alive") Color.Green else Color.Red
                         )
-                        Text(
-                            text = "status: ${item.status}",
-                            color = if(item.status == "Alive") Color.Green else Color.Red,
-                            style = RAMTheme.typography.body,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Text(
-                            text = "Gender: ${item.gender}",
-                            color = RAMTheme.colors.primaryText,
-                            style = RAMTheme.typography.body,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Text(
-                            text = "Location: ${item.location.name}",
-                            color = RAMTheme.colors.primaryText,
-                            style = RAMTheme.typography.body,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Text(
-                            text = "Type: ${item.type}",
-                            color = RAMTheme.colors.primaryText,
-                            style = RAMTheme.typography.body,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Text(
-                            text = "In which episodes",
-                            color = RAMTheme.colors.primaryText,
-                            style = RAMTheme.typography.heading,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
+                        TextEx(prefix = "Gender: ", item = item.gender, modifier = modifier)
+                        TextEx(prefix = "Location: ", item = item.location.name, modifier = modifier)
+                        TextEx(prefix = "Type: ", item = item.type, modifier = modifier)
+                        TextEx(prefix = "In which episodes:", style = RAMTheme.typography.heading,
+                            textAlign = TextAlign.Center, modifier = modifier
                         )
                         var text = ""
                         item.episode.forEach { episode ->
                             text += "${episode.takeLastWhile { it.isDigit() }} "
                         }
-                        Text(
-                            text = text,
-                            color = RAMTheme.colors.primaryText,
-                            style = RAMTheme.typography.body,
-                            fontFamily = RobotoCondensed,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        TextEx(prefix = text, modifier = modifier)
                     }
                 }
             }
-
         }
     }
 }
 
+
+@Composable
+fun TextEx(
+    modifier: Modifier = Modifier,
+    prefix: String = "",
+    item: String = "",
+    style: TextStyle = RAMTheme.typography.body,
+    textAlign: TextAlign = TextAlign.Start,
+    textColor: Color = RAMTheme.colors.primaryText,
+    fontFamily: FontFamily = RobotoCondensed
+){
+    Text(
+        text = "$prefix$item",
+        color = textColor,
+        style = style,
+        fontFamily = fontFamily,
+        textAlign = textAlign,
+        modifier = modifier
+    )
+}
