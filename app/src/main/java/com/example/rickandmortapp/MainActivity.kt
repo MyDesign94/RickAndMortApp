@@ -19,14 +19,16 @@ import com.example.rickandmortapp.feature.presentation.list_screen.ListScreen
 import com.example.rickandmortapp.feature.presentation.list_screen.ListScreenViewModel
 import com.example.rickandmortapp.feature.presentation.ui.theme.MainTheme
 import dagger.hilt.android.AndroidEntryPoint
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
+@ExperimentalSnapperApi
+@ExperimentalCoilApi
+@ExperimentalFoundationApi
+@ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
-    @ExperimentalCoilApi
-    @ExperimentalFoundationApi
-    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

@@ -13,7 +13,9 @@ import com.example.rickandmortapp.feature.presentation.list_screen.component.Lis
 import com.example.rickandmortapp.feature.presentation.list_screen.component.ListScreenLoadingView
 import com.example.rickandmortapp.feature.presentation.list_screen.model.ListScreenEvent
 import com.example.rickandmortapp.feature.presentation.list_screen.model.ListScreenViewState
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
+@ExperimentalSnapperApi
 @RequiresApi(Build.VERSION_CODES.N)
 @ExperimentalMaterialApi
 @ExperimentalCoilApi
